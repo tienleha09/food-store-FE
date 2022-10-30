@@ -1,0 +1,22 @@
+<div class="col-6 mx-auto my-3">
+    <app-search (searchTextChangeEvent)="doFilter($event)"></app-search>
+</div>
+<div class="my-3" *ngFor="let category of categories">
+    <h4>{{category}}</h4>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col" *ngFor="let product of getProducts(category)">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">{{product.name}}</h6>
+                    <p class="card-text">{{product.description}}</p>
+                    <span class="badge bg-warning ">{{product.calories}} calories</span>
+                    <span class="badge bg-primary">{{product.price |currency: "USD"}}</span>
+                    <a class="btn btn-success btn-sm float-end" (click)="addToCart(product)">
+                        <i class="fa-solid fa-cart-plus"></i>
+                        Add To Cart
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

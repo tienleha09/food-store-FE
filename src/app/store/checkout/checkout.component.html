@@ -1,0 +1,93 @@
+<a class="btn btn-link my-3" routerLink="/cart">
+    <i class="fa-solid fa-chevron-left"></i>
+    Back To Cart
+</a>
+<h4>Checkout</h4>
+<div class="row gx-6" *ngIf="!formSubmitted">
+    <div class="col-sm-6 col-md-6">
+        <h6>Contact</h6>
+        <form [formGroup]="contactForm" #form = "ngForm" (ngSubmit)="submitOrder()">
+            <div class="row g-3">
+                <div class="col-6">
+                    <input type="text" class="form-control" placeholder="First Name" formControlName="firstName">
+                    <ul class="text-danger list-unstyled mt-1" *ngIf="firstName.invalid && firstName.touched">
+                        <li *ngFor="let err of firstName.errors|validationFormat:'first name'">{{err}}</li>
+                    </ul>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName">
+                    <ul class="text-danger list-unstyled mt-1" *ngIf="lastName.invalid && lastName.touched">
+                        <li *ngFor="let err of lastName.errors|validationFormat:'last name'">{{err}}</li>
+                    </ul>
+                </div>
+                <div class="col-6 ">
+                    <input type="email" class="form-control" placeholder="Email Address" formControlName="email">
+                    <ul class="text-danger list-unstyled mt-1" *ngIf="email.invalid && email.touched">
+                        <li *ngFor="let err of email.errors|validationFormat:'email'">{{err}}</li>
+                    </ul>
+                </div>
+                <div class="col-6 ">
+                    <input type="tel" class="form-control" placeholder="Phone Number" formControlName="phoneNumber">
+                    <ul class="text-danger list-unstyled mt-1" *ngIf="phoneNumber.invalid && phoneNumber.touched">
+                        <li *ngFor="let err of phoneNumber.errors|validationFormat:'phone number'">{{err}}</li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="mt-2">
+                <button type="submit" class="btn btn-success my-4" style="width: 100%;"
+                    [disabled]="form.invalid">Place Order</button>
+            </div>
+        </form>
+
+        
+    </div>
+    <div class="col-sm-6 col-md-6">        
+        <div class="row justify-content-md-center">
+            <div class="col-8">
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <h6 class="text-center">Order Summary</h6>
+                          </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                          <div class="accordion-body">
+                            <div class="card my-3 " *ngFor="let line of cart.lines">
+                                <div class="card-body py-0">
+                                    <h6 class="card-title d-inline">{{line.product.name}}</h6>
+                                    <p class="d-inline float-end">{{line.product.price |currency}} </p>
+                                    <p class="card-text">Qty: {{line.quantity}}</p>
+                                </div>
+                            </div> 
+                          </div>
+                        </div>
+                      </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-6 text-end">
+                        <p><strong>Subtotal:</strong></p>
+                        <p>Taxes (tax):</p>
+                        <p>Tip:</p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <p><strong>{{cart.totalPrice |currency}}</strong></p>
+                        <p>{{cart.taxAmount |currency}}</p>
+                        <p>{{cart.tipAmount |currency}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="row" *ngIf="formSubmitted">
+    <p>Thanks for placing this order!</p>
+    <button class="btn btn-outline-primary border-0" routerLink="/store">
+        <i class="fa-solid fa-bowl-food"></i>
+        Continue Shopping
+    </button>
+</div>
