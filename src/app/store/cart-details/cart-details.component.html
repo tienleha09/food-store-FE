@@ -1,93 +1,96 @@
-<div class="row justify-content-around">
-    <div *ngIf="cart.lines.length ==0" class="col-sm-6 col-md-6 float-start p-2">        
-        <h4>Your Cart Is Empty. </h4>
-        <button class="btn btn-outline-primary border-0" routerLink="/store">
-            <i class="fa-solid fa-bowl-food"></i>
-            Continue Shopping
-        </button>
+<store-header></store-header>
+<div class="container px-5 pt-2">
+    <div class="row justify-content-around">
+        <div *ngIf="cart.lines.length ==0" class="col-sm-6 col-md-6 float-start p-2">        
+            <h4>Your Cart Is Empty. </h4>
+            <button class="btn btn-outline-primary border-0" routerLink="/store">
+                <i class="fa-solid fa-bowl-food"></i>
+                Continue Shopping
+            </button>
+        </div>
+        <ng-container *ngIf="cart.lines.length !=0" >
+            <div class="col-sm-6 col-md-6">
+                <h4>Your Cart</h4>
+                <h6>Your Order: {{cart.itemCount}} item(s)</h6>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Item(s)</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Subtotal</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let line of cart.lines">
+                            <td>{{line.product.name}}</td>
+                            <td>
+                                <input min="1" type="number" class="form-control-sm" style="width: 5em" [value]="line.quantity"
+                                    (input)="updateQuantity(line.product,$any($event).target.value)">
+                            </td>
+                            <td>{{line.lineTotal |currency}}</td>
+                            <td>
+                                <button class="btn btn-outline-danger border-0 btn-sm"
+                                    (click)="removeLine(line.product.id ?? 0)">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td><strong>Total: </strong></td>
+                            <td>{{cart.totalPrice |currency}}</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="d-grid col-6 mx-auto">
+                    <button class="btn btn-outline-success" routerLink="/store">Add More Items</button>
+                </div>
+    
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <br>
+                <h6>Add A Tip</h6>
+                <div class="row">
+                    <div class="btn-group my-3" role="group">
+                        <button *ngFor="let tip of cart.tipOptions" class="btn btn-light border-0 m-1"
+                            (click)="selectTip(tip)">{{tip.percent | percent}}<br>{{tip.tipAmount | currency}}
+                        </button>
+                        <button class="btn btn-light text-center border-0 m-1" style="width: 4rem;height:4rem"
+                            (click)="showOtherTip = true">
+                            Other
+                        </button>
+                    </div>
+                </div>
+                <div class="row" *ngIf="showOtherTip">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" [(ngModel)]="customTip">
+                        <button class="btn btn-outline-primary" type="button"
+                            (click)="applyCustomTip(customTip)">Apply</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-6 text-end">
+                        <p><strong>Subtotal:</strong></p>
+                        <p>Taxes (tax):</p>
+                        <p>Tip {{showOtherTip ? '' : '(' + (tipPercent | percent) + ')' }}:</p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <p><strong>{{cart.totalPrice |currency}}</strong></p>
+                        <p>{{cart.taxAmount |currency}}</p>
+                        <p>{{tipAmount |currency}}</p>
+                    </div>
+                </div>
+                <p class="fs-6">Additional taxes and fees will be calculated at checkout</p>
+                <div class="row">
+                    <button class="btn btn-warning" style="width:100% ;" routerLink="/checkout">Checkout {{this.cart.totalPayment | currency}}</button>
+                </div>
+            </div>
+        </ng-container>
     </div>
-    <ng-container *ngIf="cart.itemCount > 0" >
-        <div class="col-sm-6 col-md-6">
-            <h4>Your Cart</h4>
-            <h6>Your Order: {{cart.itemCount}} item(s)</h6>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Item(s)</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Subtotal</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let line of cart.lines">
-                        <td>{{line.product.name}}</td>
-                        <td>
-                            <input #qty type="number" class="form-control-sm" style="width: 5em" [value]="line.quantity"
-                                (input)="updateQuantity(line.product,$any($event).target.value)">
-                        </td>
-                        <td>{{line.lineTotal |currency}}</td>
-                        <td>
-                            <button class="btn btn-outline-danger border-0 btn-sm"
-                                (click)="removeLine(line.product.id ?? 0)">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td></td>
-                        <td><strong>Total: </strong></td>
-                        <td>{{cart.totalPrice |currency}}</td>
-                        <td></td>
-                    </tr>
-                </tfoot>
-            </table>
-            <div class="d-grid col-6 mx-auto">
-                <button class="btn btn-outline-success" routerLink="/store">Add More Items</button>
-            </div>
-
-        </div>
-        <div class="col-sm-6 col-md-3">
-            <br>
-            <h6>Add A Tip</h6>
-            <div class="row">
-                <div class="btn-group my-3" role="group">
-                    <button *ngFor="let tip of cart.tipOptions" class="btn btn-light border-0 m-1"
-                        (click)="selectTip(tip)">{{tip.percent | percent}}<br>{{tip.tipAmount | currency}}
-                    </button>
-                    <button class="btn btn-light text-center border-0 m-1" style="width: 4rem;height:4rem"
-                        (click)="showOtherTip = true">
-                        Other
-                    </button>
-                </div>
-            </div>
-            <div class="row" *ngIf="showOtherTip">
-                <div class="input-group mb-3">
-                    <span class="input-group-text">$</span>
-                    <input type="number" class="form-control" [(ngModel)]="customTip">
-                    <button class="btn btn-outline-primary" type="button"
-                        (click)="applyCustomTip(customTip)">Apply</button>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-6 text-end">
-                    <p><strong>Subtotal:</strong></p>
-                    <p>Taxes (tax):</p>
-                    <p>Tip {{showOtherTip ? '' : '(' + (tipPercent | percent) + ')' }}:</p>
-                </div>
-                <div class="col-6 text-end">
-                    <p><strong>{{cart.totalPrice |currency}}</strong></p>
-                    <p>{{cart.taxAmount |currency}}</p>
-                    <p>{{tipAmount |currency}}</p>
-                </div>
-            </div>
-            <p class="fs-6">Additional taxes and fees will be calculated at checkout</p>
-            <div class="row">
-                <button class="btn btn-warning" style="width:100% ;" routerLink="/checkout">Checkout {{this.cart.totalPayment | currency}}</button>
-            </div>
-        </div>
-    </ng-container>
 </div>

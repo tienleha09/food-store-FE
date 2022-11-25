@@ -10,7 +10,8 @@ const routes: Routes= [
     {path: 'cart', component: CartDetailsComponent, canActivate: [StoreFirstGuard]},
     {path: 'store', component: StoreComponent, canActivate: [StoreFirstGuard]},
     {path: 'checkout', component: CheckoutComponent, canActivate: [StoreFirstGuard]},
-    {path: '', component: StoreComponent, canActivate: [StoreFirstGuard]}
+    {path: 'admin', loadChildren: () =>import('./admin/admin.module').then(m => m.AdminModule)},
+    {path: '**', component: StoreComponent, canActivate: [StoreFirstGuard]}   
 ]
 @NgModule({
     imports:[RouterModule.forRoot(routes)],

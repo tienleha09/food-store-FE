@@ -5,9 +5,8 @@ import { RouterModule } from "@angular/router";
 import { ModelModule } from "../model/model.module"
 import { SharedModule } from "../shared/shared.module";
 import { CartDetailsComponent } from "./cart-details/cart-details.component";
-import { CartSummaryComponent } from "./cart-summary/cart-summary.component";
+import { StoreHeaderComponent } from "./store-header/store-header.component";
 import { CheckoutComponent } from "./checkout/checkout.component";
-import { ValidationHelper } from "./helpers/validation-helper.pipe";
 import { StoreComponent } from "./store.component";
 
 
@@ -22,16 +21,16 @@ import { StoreComponent } from "./store.component";
   ],
   declarations: [
     StoreComponent,
-    CartSummaryComponent,
+    StoreHeaderComponent,
     CartDetailsComponent,
-    CheckoutComponent,
-    ValidationHelper
+    CheckoutComponent
+    
   ],
   exports: [
     StoreComponent,
-    CartSummaryComponent,
+    StoreHeaderComponent,
     CartDetailsComponent,
-    CheckoutComponent,
+    CheckoutComponent
   ],
 })
 export class StoreModule {}

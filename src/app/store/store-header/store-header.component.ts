@@ -3,11 +3,11 @@ import { Router } from "@angular/router";
 import { Cart } from "src/app/model/cart.model";
 
 @Component({
-    selector: 'app-cart',
-    templateUrl: 'cart-summary.component.html'
+    selector: 'store-header',
+    templateUrl: 'store-header.component.html'
 })
 
-export class CartSummaryComponent{
+export class StoreHeaderComponent{
     
     constructor(public cart: Cart, public router: Router){}
 

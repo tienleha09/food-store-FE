@@ -20,7 +20,7 @@ export class ValidationHelper{
         for(let errorName in errors){
             switch(errorName){
                 case "required":
-                    messages.push(`You must enter a valid ${label}`);
+                    messages.push(`This ${label} field is required`);
                     break;
                 case "minlength":
                     messages.push(`A valid ${label} must be at least ${errors['minlength'].requiredLength} characters`);
@@ -31,6 +31,8 @@ export class ValidationHelper{
                 case "pattern":
                     messages.push(`The ${label} contains illegal characters`);
                     break;
+                case "min":
+                    messages.push(`A valid ${label} must be greater than ${errors['min'].min}`)
             }
         }
         return messages;

@@ -1,0 +1,8 @@
+<div class="row">
+    <div class="col">
+        <app-product-table-admin (showEditorEvent)="getEditorData($event)" [showEditor]="showEditor"></app-product-table-admin>
+    </div>
+    <div class="col-4" *ngIf="showEditor">
+        <app-product-editor-admin [product] = "product" [mode] = "mode" (closeEditorEvent)="showEditor = $event"></app-product-editor-admin>
+    </div>
+</div>

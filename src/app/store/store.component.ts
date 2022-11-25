@@ -48,8 +48,7 @@ export class StoreComponent{
                                                         .sort();
     }
 
-    addToCart(product: Product){
-        console.log(`${product.name} is added`);
+    addToCart(product: Product){        
         this.cart.addLine(product);
     }
 }
