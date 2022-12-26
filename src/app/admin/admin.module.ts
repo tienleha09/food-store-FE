@@ -2,11 +2,11 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterModule, Routes } from "@angular/router";
-import { ValidationHelper } from "../shared/pipe/validation-helper.pipe";
 import { SharedModule } from "../shared/shared.module";
 import { AdminComponent } from "./admin.component";
 import { AuthComponent } from "./auth.component";
 import { AuthGuard } from "./auth.guard";
+import { OrderDisplayComponent } from "./orders/orderDisplay.component";
 import { ProductDisplayComponent } from "./products/productDisplay.component";
 import { ProductEditorComponent } from "./products/productEditor.component";
 import { ProductTableComponent } from "./products/productTable.component";
@@ -17,6 +17,7 @@ const routing = RouterModule.forChild([
      canActivate: [AuthGuard],
      children: [
         {path: "products", component: ProductDisplayComponent},
+        {path: "orders", component: OrderDisplayComponent},
         {path: "**", component: ProductDisplayComponent}
      ]
     },
@@ -36,7 +37,8 @@ const routing = RouterModule.forChild([
         AuthComponent,
         ProductDisplayComponent,
         ProductTableComponent,
-        ProductEditorComponent
+        ProductEditorComponent,
+        OrderDisplayComponent
     ],
     providers:[AuthGuard]
 })

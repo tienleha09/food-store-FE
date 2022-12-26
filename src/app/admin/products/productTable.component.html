@@ -69,3 +69,26 @@
     </tbody>
 
 </table>
+<div class="form-inline float-start mr-1">
+    <select class="form-control" [value]="itemsPerPage"
+        (change)="changePageSize($any($event).target.value)">
+        <option value="5">5 per Page</option>
+        <option value="10" selected>10 per Page</option>
+        <option value="15">15 per Page</option>
+        <option value="20">20 per Page</option>
+    </select>
+</div>
+
+<div class="btn-group float-end">
+    <ul class="pagination ">
+        <li class="page-item" [class.disabled] = "atFirstPage"><a class="page-link" (click)="goPrev()">Previous</a></li>
+        <li class="page-item" *ngFor="let page of pages" [class.disabled] = "page > getMaxPageIndex()" >
+            <a class="page-link" (click)="changePage(page)">{{page}}</a>
+        </li>
+        <li class="page-item" [class.disabled] = "atLastPage"><a class="page-link" (click)="goNext()">Next</a></li>
+        
+    </ul>
+
+</div>
+
+  

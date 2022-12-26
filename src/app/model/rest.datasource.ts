@@ -14,7 +14,7 @@ export class RestDataSource{
     baseUrl: string;
     auth_token?: string;
     constructor(private http: HttpClient){
-        this.baseUrl = 'https://localhost:44300/api/';
+        this.baseUrl = 'https://foodstoreapi2022.azurewebsites.net/api/';
     }
     getProducts(): Observable<Product[]>{
         return this.http.get<Product[]>(this.baseUrl + "products");
